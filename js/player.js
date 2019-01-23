@@ -10,7 +10,10 @@ function Player(game) {
   this.speedY = 0;
   this.limitLeft = true;
   this.limitRight = true;
-  this.playerNumber = 0;
+  this.playerName = "";
+  this.heading = "right";
+  this.punchRange = this.width *1.2;
+  this.score = 0;
 }
 Player.prototype.draw = function() {
   this.game.ctx.fillRect(this.x, this.y, this.width, this.height);
@@ -30,9 +33,11 @@ Player.prototype.updatePosition = function() {
 };
 Player.prototype.moveLeft = function() {
   this.speedX = -6;
+  this.heading = "left"
 };
 Player.prototype.moveRight = function() {
   this.speedX = 6;
+  this.heading = "right"
 };
 // Player.prototype.moveUp = function() {
 // this.speedY = -6;
@@ -57,8 +62,40 @@ Player.prototype.up = function() {
   }
 };
 Player.prototype.punch = function() {
-  this.game.ctx.fillRect(this.x, this.y, this.width, this.height);
-  // console.log("Punch!");
+  var otherPlayer = ""
+  if (this.playerName === "player"){
+    otherPlayer = "player2"
+  } else { 
+    otherPlayer = "player"
+  }
+    let x1Left = this.x;
+    let x1Right = this.x +this.width
+    let x2Left = this.game.players[otherPlayer].x
+    let x2Right = this.game.players[otherPlayer].x + this.game.players[otherPlayer].width
+    let y1 = this.y
+    let y2 = this.game.players[otherPlayer].y
+
+    var cond1d= x2Left - x1Right < this.punchRange
+    var cond2d= this.heading === "right"
+    var cond3d = x2Left - x1Right > 0
+
+    var cond1i = x1Left - x2Right < this.punchRange
+    var cond2i = this.heading === "left"
+    var cond3i = x1Left - x2Right > 0
+
+    var cond1h = y1 - this.height < y2
+    var cond2h = y1 + this.height/2 > y2
+
+    if (cond1d && cond2d && cond3d && cond1h && cond2h){
+      this.score++
+      console.log("PUM! " + this.score)
+      this.game.ctx.fillRect(this.x, this.y, this.width+this.punchRange, this.height/2);
+    }else if (cond1i && cond2i && cond3i && cond1h && cond2h){
+      this.score++
+      console.log("PUM Rojo sieniestro " + this.score)
+      this.game.ctx.fillRect(this.x, this.y, -this.punchRange, this.height/2);
+    }
+  
 };
 Player.prototype.boundary = function() {
   if (this.x <= 0) {
