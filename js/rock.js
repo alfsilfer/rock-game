@@ -1,4 +1,4 @@
 window.onload = function(){
-  Game.startGame()
+  Game.startGame("canvasRock")
   console.log("It's on!!")
 }

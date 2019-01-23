@@ -1,9 +1,9 @@
-function Player(game) {
-  this.game = game;
+function Player2(game) {
+  this.game = game
 
   this.width = 30;
   this.height = 50;
-  this.x = 10;
+  this.x = 1650;
   this.y0 = 750;
   this.y = this.y0;
   this.speedX = 0;
@@ -11,10 +11,10 @@ function Player(game) {
   this.limitLeft = true;
   this.limitRight = true;
 }
-Player.prototype.draw = function() {
+Player2.prototype.draw = function() {
   this.game.ctx.fillRect(this.x, this.y, this.width, this.height);
 };
-Player.prototype.updatePosition = function() {
+Player2.prototype.updatePosition = function() {
 
   if (this.limitLeft&&this.speedX<0) {
     this.x += this.speedX;
@@ -27,23 +27,23 @@ Player.prototype.updatePosition = function() {
   this.up();
   // this.boundary();
 };
-Player.prototype.moveLeft = function() {
+Player2.prototype.moveLeft = function() {
   this.speedX = -6;
 };
-Player.prototype.moveRight = function() {
+Player2.prototype.moveRight = function() {
   this.speedX = 6;
 };
-// Player.prototype.moveUp = function() {
+// Player2.prototype.moveUp = function() {
 // this.speedY = -6;
 // };
-// Player.prototype.moveDown = function() {
+// Player2.prototype.moveDown = function() {
 // this.speedY = 6;
 // };
-Player.prototype.noMove = function() {
+Player2.prototype.noMove = function() {
   this.speedX = 0;
   this.speedY = 0;
 };
-Player.prototype.up = function() {
+Player2.prototype.up = function() {
   var gravity = 0.8;
   //debugger
   if (this.y >= this.y0) {
@@ -55,19 +55,19 @@ Player.prototype.up = function() {
     // console.log("salta kanguro", this.y);
   }
 };
-Player.prototype.setListeners = function() {
+Player2.prototype.setListeners2 = function() {
   document.onkeydown = function(event) {
     switch (event.keyCode) {
-      case 65:
+      case 75:
         this.moveLeft();
         break;
-      case 68:
+      case 192:
         this.moveRight();
         break;
-      case 87:
+      case 79:
         this.y -= 150;
         break;
-      case 81:
+      case 73:
         this.punch();
         break;
       // case 87:
@@ -79,11 +79,11 @@ Player.prototype.setListeners = function() {
     }
   }.bind(this);
 };
-Player.prototype.dontMove = function() {
+Player2.prototype.dontMove = function() {
   document.onkeyup = function(event) {
     switch (event.keyCode) {
-      case 68:
-      case 65:
+      case 75:
+      case 192:
         // case 83:
         // case 87:
         this.noMove();
@@ -91,11 +91,11 @@ Player.prototype.dontMove = function() {
     }
   }.bind(this);
 };
-Player.prototype.punch = function() {
+Player2.prototype.punch = function() {
   this.game.ctx.fillRect(this.x, this.y, this.width, this.height);
-  // console.log("Punch!");
+  console.log("Punch!");
 };
-Player.prototype.boundary = function() {
+Player2.prototype.boundary = function() {
   if (this.x <= 0) {
     this.limitLeft = false;
   } else {
