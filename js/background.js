@@ -6,7 +6,7 @@ function Background(game){
   this.height = 800;
 
   this.img = new Image;
-  this.img.src = "./img/the_wall.jpg";
+  this.img.src = "./img/the_wall_3.jpg";
 
   Background.prototype.draw = function(){
     
