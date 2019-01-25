@@ -1,0 +1,29 @@
+body{
+  text-align: center;
+  text-shadow: slategray;
+  background-image: url('../img/wallpaper.jpg');
+  font-family: 'Press Start 2P', cursive;
+  color: ;
+  font-size: 40px;
+}
+.title{
+  border: 5px, solid, black;
+}
+.div-button{
+display: flex;
+justify-content: center;
+align-content: center;
+
+}
+#start-button{
+  font-size: 30px;
+  background-color: #870007;
+  color: #fff;
+  padding: 20px 40px;
+  border: 0;
+  box-shadow: 0;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  margin: 0 auto;
+  
+}

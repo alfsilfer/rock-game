@@ -6,25 +6,24 @@ var Game = {
   players: {},
   interval: undefined,
   theme: new Audio(),
-  gameOverFlag: false,
+  // gameOverFlag: false,
 
   startGame: function(id) {
     this.background = new Background(this);
     this.players.player = new Player(this);
     this.players.player.playerName = "player";
     this.players.player2 = new Player(this);
-    this.players.player2.x = 1650;
+    this.players.player2.x = 1600;
     this.players.player2.playerName = "player2";
     this.obstacles = new Obstacles(this);
     this.score = new ScoreBoard(this);
     this.message = new Message(this);
     this.theme.play();
-    console.log(this.theme)
 
     this.canvas = document.getElementById(id);
     this.ctx = this.canvas.getContext("2d");
     // this.drawAll();
-
+    this.button()
     this.setListeners();
     this.dontMove();
     // this.audio.onload();
@@ -50,7 +49,7 @@ var Game = {
         this.players.player2.boundary();
         this.players.player.animateImg();
         this.players.player2.animateImg();
-        // this.gameOver();
+        this.gameOver();
         
       }.bind(this),
       1000 / this.fps
@@ -70,6 +69,7 @@ var Game = {
   },
   detectObstacles: function() {
     var cond1, cond2, cond3, cond4;
+    //debugger
     for (i = 0; i < this.obstacles.arrObs.length; i++) {
       cond1 =
         this.players.player.x + this.players.player.width >=
@@ -124,7 +124,10 @@ var Game = {
           this.players.player.moveRight();
           break;
         case 87:
+        console.log('SALTOOO')
+        console.log(this.players.player.y)
           this.players.player.y -= 150;
+          console.log(this.players.player.y)
           break;
         case 81:
           this.players.player.punch();
@@ -161,18 +164,18 @@ var Game = {
   },
   gameOver: function() {
     if (this.players.player.score === 30) {
+      this.stop();
       this.message.choose();
-      this.gameOverFlag = true
-      // this.stop();
+      // this.gameOverFlag = true
       // this.reset();
-      // this.start();
+      // this.startGame();
     }
     if (this.players.player2.score === 30) {
+      this.stop();
       this.message.choose();
-      this.gameOverFlag = true
-      // this.stop();
+      // this.gameOverFlag = true
       // this.reset();
-      // this.start();
+      // this.startGame();
     }
   },
   reset: function() {
@@ -184,5 +187,8 @@ var Game = {
     this.players.player2.playerName = "player2";
     this.obstacles = new Obstacles(this);
     this.score = new ScoreBoard(this);
+  },
+  button: function(){
+    document.getElementById("start-button").style.display = "none";
   }
 };

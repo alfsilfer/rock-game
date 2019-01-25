@@ -1,10 +1,10 @@
 function Player(game) {
   this.game = game;
 
-  this.width = 30;
-  this.height = 50;
+  this.width = 70;
+  this.height = 90;
   this.x = 10;
-  this.y0 = 720;
+  this.y0 = 680;
   this.y = this.y0;
   this.speedX = 0;
   this.speedY = 0;
@@ -14,6 +14,7 @@ function Player(game) {
   this.heading = "right";
   this.punchRange = this.width *1.2;
   this.score = 0;
+  this.patch = 20;
   
   this.img = new Image();
   this.img.src = './img/Punk_Run.png';
@@ -21,16 +22,15 @@ function Player(game) {
   this.img.frameIndex = 0;
 
   this.img2 = new Image();
-  this.img2.src = './img/Punk_Run_Left.png';
+  this.img2.src = './img/Punk_Run.png';
   this.img2.frames = 8;
   this.img2.frameIndex = 0;
 
 }
 
 Player.prototype.draw = function() {
-  // Documentación drawImage:
-  // https://developer.mozilla.org/es/docs/Web/API/CanvasRenderingContext2D/drawImage
-  if (this.heading="right"){
+
+  // if (this.heading="right"){
     this.game.ctx.drawImage(
       this.img,
       this.img.frameIndex * Math.floor(this.img.width / this.img.frames),
@@ -42,30 +42,31 @@ Player.prototype.draw = function() {
       this.width,
       this.height
     );
-  } else {
-    this.game.ctx.drawImage(
-      this.img2,
-      this.img2.frameIndex * Math.floor(this.img2.width / this.img2.frames),
-      0,
-      Math.floor(this.img2.width / this.img2.frames),
-      this.img2.height,
-      this.x,
-      this.y,
-      this.width,
-      this.height
-    );
-  }
+    
+
+  // } else {
+  //   this.game.ctx.drawImage(
+  //     this.img2,
+  //     this.img2.frameIndex * Math.floor(this.img2.width / this.img2.frames),
+  //     0,
+  //     Math.floor(this.img2.width / this.img2.frames),
+  //     this.img2.height,
+  //     this.x,
+  //     this.y,
+  //     this.width,
+  //     this.height
+  //   );
+  // }
 }
 
   Player.prototype.animateImg = function() {
     // se va cambiando el frame. Cuanto mayor es el módulo, mas lento se mueve el personaje
     if (this.game.framesCounter % 6 === 0) {
       this.img.frameIndex += 1;
-      this.img2.frameIndex += 1;
-  
+      
       // Si el frame es el último, se vuelve al primero
       if (this.img.frameIndex > 2) this.img.frameIndex = 0;
-      if (this.img2.frameIndex > 2) this.img2.frameIndex = 0;
+      this.img2.frameIndex += 1;
     }
   };
 
@@ -80,6 +81,7 @@ Player.prototype.updatePosition = function() {
   }
   
   this.y += this.speedY;
+ // console.log('antes del up')
   this.up();
   // this.boundary();
 };
@@ -102,6 +104,8 @@ Player.prototype.noMove = function() {
   this.speedY = 0;
 };
 Player.prototype.up = function() {
+  //console.log('dentro del up')
+  //debugger
   var gravity = 0.8;
   //debugger
   if (this.y >= this.y0) {
@@ -120,16 +124,17 @@ Player.prototype.punch = function() {
   } else { 
     otherPlayer = "player"
   }
-    let x1Left = this.x;
-    let x1Right = this.x +this.width
-    let x2Left = this.game.players[otherPlayer].x
-    let x2Right = this.game.players[otherPlayer].x + this.game.players[otherPlayer].width
+    let x1Left = this.x + this.patch;
+    let x1Right = this.x +this.width -this.patch
+    let x2Left = this.game.players[otherPlayer].x + this.patch
+    let x2Right = this.game.players[otherPlayer].x + this.game.players[otherPlayer].width - this.patch
     let y1 = this.y
     let y2 = this.game.players[otherPlayer].y
 
     var cond1d= x2Left - x1Right < this.punchRange
     var cond2d= this.heading === "right"
     var cond3d = x2Left - x1Right > 0
+    
 
     var cond1i = x1Left - x2Right < this.punchRange
     var cond2i = this.heading === "left"
@@ -137,7 +142,7 @@ Player.prototype.punch = function() {
 
     var cond1h = y1 - this.height < y2
     var cond2h = y1 + this.height/2 > y2
-
+ 
     if (cond1d && cond2d && cond3d && cond1h && cond2h){
       this.score++
       console.log("PUM! " + this.score)
